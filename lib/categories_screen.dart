@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:meals_app/cateegory_grid_item.dart';
+import 'package:meals_app/widget/cateegory_grid_item.dart';
 import 'package:meals_app/meals_screen.dart';
 import 'package:meals_app/models/dummay_data.dart';
 
