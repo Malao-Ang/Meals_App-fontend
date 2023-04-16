@@ -13,6 +13,7 @@ class MealDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(meal.title),
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.star))],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -44,13 +45,10 @@ class MealDetailsScreen extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.bold),
             ),
-            SizedBox(
-              height: 15,
-            ),
             for (final step in meal.steps)
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                 child: Text(
                   step,
                   textAlign: TextAlign.center,
