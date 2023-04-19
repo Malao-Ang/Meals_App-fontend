@@ -9,15 +9,44 @@ import 'package:meals_app/models/dummay_data.dart';
 import 'models/category.dart';
 import 'models/meal.dart';
 
-class CategoriesScreen extends StatelessWidget {
+class CategoriesScreen extends StatefulWidget {
   // final Function(Meal meal) onToggleFavorites;
   const CategoriesScreen(
       {super.key,
       // required this.onToggleFavorites,
       required this.availableMeals});
 
+  final List<Meal> availableMeals;
+
+  @override
+  State<CategoriesScreen> createState() => _CategoriesScreenState();
+}
+
+class _CategoriesScreenState extends State<CategoriesScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animetionController;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _animetionController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+      lowerBound: 0,
+      upperBound: 1,
+    );
+    _animetionController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animetionController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   void _selectCategory(BuildContext context, Category category) {
-    final filterMeals = availableMeals
+    final filterMeals = widget.availableMeals
         .where((meal) => meal.categories.contains(category.id))
         .toList();
     Navigator.of(context).push(MaterialPageRoute(
@@ -28,27 +57,32 @@ class CategoriesScreen extends StatelessWidget {
             )));
   }
 
-  final List<Meal> availableMeals;
-
   @override
   Widget build(BuildContext context) {
-    return GridView(
-      padding: EdgeInsets.all(16),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 3 / 2,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20),
-      children: [
-        for (final category in DUMMY_CATEGORIES)
-          CategoryGridItem(
-            category: category,
-            onSelecCategory: () {
-              _selectCategory(context, category);
-            },
-          )
-        // Text('1'),
-      ],
-    );
+    return AnimatedBuilder(
+        animation: _animetionController,
+        child: GridView(
+          padding: EdgeInsets.all(16),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 3 / 2,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20),
+          children: [
+            for (final category in DUMMY_CATEGORIES)
+              CategoryGridItem(
+                category: category,
+                onSelecCategory: () {
+                  _selectCategory(context, category);
+                },
+              )
+            // Text('1'),
+          ],
+        ),
+        builder: (context, child) => Padding(
+              padding:
+                  EdgeInsets.only(top: 100 - _animetionController.value * 100),
+              child: child,
+            ));
   }
 }
